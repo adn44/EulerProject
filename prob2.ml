@@ -7,4 +7,3 @@ let sum_fibo =
     else if n mod 2 == 0 then local (n + k) n (acc + n)
     else local (n + k) n acc
   in local 1 1 0;;
-
