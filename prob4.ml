@@ -1,39 +1,21 @@
-open List;;
-
-(* make a list from an integer, example 123 -> [1;2;3] *)
-let list_of_int = fun n ->
-  let rec local = fun k acc ->
-    match k with
-      |0 -> acc
-      |_ -> local (k/10) ((k mod 10)::acc)
-  in local n [];;
-
-
-(* check if two lists are equals or not, example:
-*  [1;2;3] -> [1;2;3]   -> true
-*  [1;2;3] -> [1;3;2]   -> false
-*  [1;2;3] -> [1;2;3;4] -> false
-*)
-let liste_egale = fun l ll ->
-  if length l != length ll then false
-  else 
-    let rec local = fun i bool ->
-      if i == length l then bool
-      else if nth l i != nth ll i then local (length l) false
-      else  local (i+1) bool
-    in local 0 true;;
+(* reverse a integer, example 123 -> 321 *)
+let reverse = fun x ->
+  let rec local = fun n acc ->
+    if n <= 0 then acc
+    else local (n/10) (10*acc + n mod 10)
+  in local x 0;;
 
 
 (* return true if the number n is a palindrom, false otherwise *)
-let est_palindrome = fun n -> if liste_egale (list_of_int n) (rev (list_of_int n)) then true else false;;
+let is_palindrom = fun n -> if n = (reverse n) then true else false;;
 
 
 (* return the largest palindrom number resulting on the product of 2 numbers of
  * 3 digits *)
-let palindrome_max = 
-  let rec local = fun n k maxpal ->
-    if est_palindrome (n*k) then local n (k-1) (max maxpal (n*k))
-    else if n == 100 && k == 100 then maxpal
-    else if k == 100 then local (n-1) 999 maxpal
-    else local n (k-1) maxpal
+let max_palindrom = 
+  let rec local = fun n k max_pal ->
+    if is_palindrom (n*k) then local n (k-1) (max max_pal (n*k))
+    else if n = 100 && k = 100 then max_pal
+    else if k = 100 then local (n-1) 999 max_pal
+    else local n (k-1) max_pal
         in local 999 999 0;;
